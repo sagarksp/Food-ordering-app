@@ -7,6 +7,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
 import { Outlet } from "react-router-dom";
+import Menucard from "./components/Menucard";
 
 import { createBrowserRouter , RouterProvider } from "react-router-dom";
 
@@ -91,6 +92,10 @@ const browserrouter = createBrowserRouter([
             {
                 path:"/about",
                 element:<About />
+            },
+            {
+                path:"/restaurants/:resid",
+                element:<Menucard/>
             }
         ]
 

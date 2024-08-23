@@ -8,12 +8,10 @@
     justify-content: space-between;
     border: 1px solid black;
     margin: 10px 0px 0px 0px;
-    
-
 }
 .logo{
     margin-left: 20px;
-    padding-top: 40px;
+    padding-top:22px;
     width: 100px;
     
 }
@@ -105,4 +103,23 @@
     border-radius: 10px;
     width: auto;
     height:30px
+}
+
+/* menu component  */
+
+.menu{
+    justify-content: center;
+}
+.res-container{
+    list-style: none;
+    color: black;
+
+}
+.about{
+    display: inline-block;
+    margin: 10px;
+    border: solid 1px black;
+    width: 20%;
+    padding-left: 15px;
+
 }
