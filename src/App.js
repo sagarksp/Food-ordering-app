@@ -1,4 +1,4 @@
-import React from "react";
+import React, {lazy, Suspense} from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -75,6 +75,11 @@ const AppLayout = () =>{
 //         ])
 
 //making children routes 
+// import Grocery from "./components/Grocery";
+
+//import at lazy loading
+
+const Grocery = lazy( () => import("./components/Grocery"));
 
 const browserrouter = createBrowserRouter([
     {
@@ -92,6 +97,14 @@ const browserrouter = createBrowserRouter([
             {
                 path:"/about",
                 element:<About />
+            },
+            {
+                path:"/grocery",
+                element:<Suspense fallback={<h1>isme jo bhi likhuga wo hi load hokr aaega 
+                    suspense isliye use kiya h ki jab tak api se dat ana aaye tab tak page p kush \show ho
+                </h1>}>
+                    <Grocery />
+                        </Suspense>
             },
             {
                 path:"/restaurants/:resid",

@@ -1,8 +1,11 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard,{RestaurantCardPromoted} from "./RestaurantCard";
 import resList from "../utils/mockdata";
 import { useState,useEffect } from "react";
 import {Shimmer} from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/hooks/useOnlineStatus";
+import { BODY_URL } from "../utils/constants";
+import { RestaurantCardPromoted } from "./RestaurantCard";
 
 
 const Body =()=>{
@@ -11,6 +14,8 @@ const [Restaurant  ,  setRestaurant] = useState([]);
 
 const [filterres , setfilterres] = useState( []);
 
+
+const Restwithlabel = RestaurantCardPromoted(RestaurantCard);
 // console.log("body rendered"); body re render ho rhi h api k baad jab use state ki value change hogi tab ab harf baart
 
 //create new use state to get searches data 
@@ -26,9 +31,7 @@ useEffect(()=>{
 //making use effect function 
 const fetchData = async() => {
     
-    const data = await fetch(
-       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.65200&lng=77.16630&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
+    const data = await fetch(BODY_URL);
 
     const json = await data.json();
     console.log(json );
@@ -39,26 +42,28 @@ const fetchData = async() => {
 
 };
 
+    const onlineStatus = useOnlineStatus();
+
+    if(onlineStatus === false){
+        return(
+            <h2>no internet connection 🤣</h2>
+        )
+    }
+
     return filterres.length === 0 ? (
         <Shimmer />
     ) : (
         
 
-        <div className="body">
-            
-
-
-            <div className="search-box">
-
-
-                <input type="text" value={search}  onChange={(e)=>{
+        <div className="body ">    
+            <div className="filter flex">
+                <div className="m-4 p-4">
+                <input type="text" className="border border-solid border-black mx-[100px] " value={search}  onChange={(e)=>{
                     setsearch(e.target.value) 
-                    
                 }} 
                 />
     
-
-                <button className="search" onClick={()=>{
+                <button className="search p-4 px-4 py-2 bg-green-100 rounded-lg ml-[-95px]" onClick={()=>{
                     const filterRest = Restaurant.filter((res) => 
                         
                         // res.data.name.includes(search)
@@ -71,33 +76,40 @@ const fetchData = async() => {
                 }}>
                     Search</button>
                     
-
-
             </div>
-            <button onClick={ ()=>{
+            <div className="m-4 p-4 flex items-center ">
+            <button  
+            className = " p-4 px-4 py-2 bg-green-100 rounded-lg ml-[-50px]"
+             onClick={ ()=>{
                 const filterList=Restaurant.filter((res) => res.info.avgRating>4);
                 setfilterres(filterList)
                 console.log(filterList)
                 }}>Top rating restaurants
             </button>
+            </div>
+            
+<div className="m-4 p-4 flex items-center ">
+    <button className=" p-4 px-4 py-2 bg-green-100 rounded-lg  ml-[-50px]" 
+    onClick={ ()=>{
 
-
-
-    <button onClick={ ()=>{
-
-        const time = Restaurant.filter((tim)=>tim.info.deliveryTime<30)
-        setfilterres(time);
+        const time = Restaurant.filter((tim)=>tim.info.deliveryTime<20)
+        setfilterres(time)
         console.log(time)
         }}>less time delivery restaurant
     </button>
+</div>
+    </div>
 
-            <div className="res-container">
+            <div className="res-container flex flex-wrap justify-center ">
                 
                  {filterres.map((res) => (
 
                     <Link 
                     key = {res.info.id}
-                    to={"/restaurants/" + res.info.id}><RestaurantCard   resData= {res} /></Link>
+                    to={"/restaurants/" + res.info.id}>{
+                        res.info.avgRating>4.2 ? <Restwithlabel resData = {res} /> : <RestaurantCard   resData= {res} />
+                    }
+                    </Link>
                     
                 ))};
 
