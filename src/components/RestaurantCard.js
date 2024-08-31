@@ -30,7 +30,7 @@ const RestaurantCard = (props) =>{
           <h4 className="overflow-wrap break-words leading-5 tracking-wide">{cuisines.join(",")}</h4>
           <h4>{costForTwo}</h4>
           <h4>{deliveryTime}</h4>
-          <h4>{avgRating}  "Rating star⭐"</h4>
+          <h4>{avgRating}  "Ratings star⭐"</h4>
 
           {/* /*   <h3>{resData.data.name}</h3>
           { CUISINES ME COMMA , HOTA H TO ARRAY KI PROPERTY JOIN USE KAREGE }
